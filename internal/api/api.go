@@ -62,7 +62,7 @@ func PostTip() echo.HandlerFunc {
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "Invalid id.")
 		}
-		map_uuid := c.FormValue("map_id")
+		map_uuid := c.FormValue("map_uuid")
 		agent_uuid := c.FormValue("agent_uuid")
 		ability_slot := c.FormValue("ability_slot")
 		title := c.FormValue("title")
