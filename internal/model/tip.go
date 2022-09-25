@@ -10,6 +10,7 @@ type Tip struct {
 	StandImgPath string `gorm:"column:stand_img_path;not null"`
 	AimImgPath   string `gorm:"column:aim_img_path;not null"`
 	Description  string `gorm:"not null"`
+	SideID       uint   `gorm:"not null"`
 	Side         Side
 	MapUUID      string `gorm:"column:map_uuid;not null"`
 	AgentUUID    string `gorm:"column:agent_uuid;not null"`
