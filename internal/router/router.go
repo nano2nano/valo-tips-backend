@@ -14,7 +14,7 @@ func Init() *echo.Echo {
 	e.Use(echoMw.Logger())
 	e.Use(echoMw.CORSWithConfig(echoMw.CORSConfig{
 		AllowOrigins: []string{"*"},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAcceptEncoding},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAcceptEncoding, echo.HeaderAccessControlAllowOrigin},
 	}))
 
 	// Set Custom MiddleWare
