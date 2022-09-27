@@ -34,9 +34,5 @@ func Init() *echo.Echo {
 	side := v1.Group("/side")
 	side.GET("", api.GetSides())
 
-	// Image
-	img := v1.Group("/img")
-	img.POST("/upload", api.PostImg())
-	img.GET("/:name", api.GetImg())
 	return e
 }

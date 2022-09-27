@@ -1,14 +1,11 @@
 package api
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
 	"os"
 	"strconv"
-	"time"
 
-	cloud "valo-tips/internal/cloud/azure"
 	"valo-tips/internal/image"
 	"valo-tips/internal/model"
 
@@ -138,47 +135,5 @@ func GetSides() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusNotFound, "Does not exists.")
 		}
 		return c.JSON(http.StatusOK, sides)
-	}
-}
-
-func PostImg() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		img, err := imageupload.Process(c.Request(), "file")
-		if img.ContentType != "image/jpeg" {
-			return c.String(http.StatusBadRequest, "only 'png' image")
-		}
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, err)
-		}
-		thumb, err := imageupload.ThumbnailPNG(img, 896, 504)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, err)
-		}
-		f_name := fmt.Sprintf("%s.jpeg", time.Now().Format("20060102150405"))
-		if err := cloud.Upload(f_name, bytes.NewReader(thumb.Data)); err != nil {
-			return c.JSON(http.StatusBadGateway, err)
-		}
-
-		return c.String(http.StatusOK, f_name)
-	}
-}
-
-func GetImg() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		f_name := c.Param("name")
-		bs, err := cloud.Download(f_name)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, err)
-		}
-
-		i := &imageupload.Image{
-			Filename:    f_name,
-			ContentType: "image/jpeg",
-			Data:        bs,
-			Size:        len(bs),
-		}
-		i.Write(c.Response().Writer)
-
-		return nil
 	}
 }
