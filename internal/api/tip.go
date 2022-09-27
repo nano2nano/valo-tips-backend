@@ -3,22 +3,17 @@ package api
 import (
 	"fmt"
 	"net/http"
-	"os"
-	"strconv"
 
 	"valo-tips/internal/image"
 	"valo-tips/internal/model"
+
+	"os"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/olahol/go-imageupload"
 	"gorm.io/gorm"
 )
-
-func Status() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		return c.String(http.StatusOK, "api is working")
-	}
-}
 
 func GetTip() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
@@ -123,17 +118,5 @@ func GetTips() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusNotFound, "Does not exists.")
 		}
 		return c.JSON(http.StatusOK, tips)
-	}
-}
-
-func GetSides() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		tx := c.Get("Tx").(*gorm.DB)
-
-		sides := new(model.Sides)
-		if err := sides.GetAll(tx); err != nil {
-			return echo.NewHTTPError(http.StatusNotFound, "Does not exists.")
-		}
-		return c.JSON(http.StatusOK, sides)
 	}
 }
