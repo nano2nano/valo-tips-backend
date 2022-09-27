@@ -1,13 +1,11 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 
 	"valo-tips/internal/image"
 	"valo-tips/internal/model"
 
-	"os"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -32,8 +30,6 @@ func GetTip() echo.HandlerFunc {
 }
 
 func PostTip() echo.HandlerFunc {
-	host := os.Getenv("AZURE_STORAGE_URL")
-	containerName := os.Getenv("AZURE_STORAGE_CONTAINER_NAME")
 	return func(c echo.Context) (err error) {
 		// upload stand image
 		img, err := imageupload.Process(c.Request(), "stand_image")
@@ -43,7 +39,7 @@ func PostTip() echo.HandlerFunc {
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "Invalid image.")
 		}
-		f_name_stand, err := image.SaveImage(img)
+		s_img_url, err := image.SaveImage(img)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "Failed to upload image.")
 		}
@@ -56,7 +52,7 @@ func PostTip() echo.HandlerFunc {
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "Invalid image.")
 		}
-		f_name_aim, err := image.SaveImage(img)
+		a_img_url, err := image.SaveImage(img)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "Failed to upload image.")
 		}
@@ -81,8 +77,8 @@ func PostTip() echo.HandlerFunc {
 			AbilitySlot:  ability_slot,
 			Title:        title,
 			Description:  description,
-			StandImgPath: fmt.Sprintf("%s/%s/%s", host, containerName, f_name_stand),
-			AimImgPath:   fmt.Sprintf("%s/%s/%s", host, containerName, f_name_aim),
+			StandImgPath: s_img_url,
+			AimImgPath:   a_img_url,
 		}
 
 		tx := c.Get("Tx").(*gorm.DB)
