@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"valo-tips/internal/cloud"
+	cloud "valo-tips/internal/cloud/dropbox"
 	"valo-tips/internal/image"
 	"valo-tips/internal/model"
 
