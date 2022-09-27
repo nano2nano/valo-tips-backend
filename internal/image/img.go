@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	cloud "valo-tips/internal/cloud/dropbox"
+	cloud "valo-tips/internal/cloud/azure"
 
 	"github.com/olahol/go-imageupload"
 )
