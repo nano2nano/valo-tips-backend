@@ -13,7 +13,7 @@ import (
 
 func SaveImage(img *imageupload.Image) (string, error) {
 	if img.ContentType != "image/jpeg" {
-		return "", errors.New("only 'png' image")
+		return "", errors.New("invalid image type")
 	}
 	thumb, err := imageupload.ThumbnailPNG(img, 768, 432)
 	if err != nil {
